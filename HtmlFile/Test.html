@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="./jsfile/Test.js"></script>
+    <link rel="stylesheet" href="./Style/Test.css">
+    <title>Test</title>
+    
+</head>
+<body dir="rtl">
+    <div style="text-align:center;">
+    <label>אנא הכנס את העיר בה תרצה ללמוד:</label>
+    <br>
+    <input style="margin: 30px;" id="Location">
+    <br>
+    <label> או הכנס את שם המורה נהיגה:</label>
+    <br>
+    <input style="margin-top: 30px;" id="Name">
+    <br>
+    <button style="margin-top: 30px;" onclick="GetAllObj()">לחץ על מנת לקבל את הנתונים</button>
+    <button style="margin-top: 30px;" onclick="SendData()">לחץ על מנת לשלוח את הנתונים</button>
+
+    <!-- <button onclick="GetOneData()">לחץ על מנת לקבל את נתון אחד</button>
+    <button onclick="SendData()">לחץ על מנת לשלוח את הנתונים</button> -->
+    <br>
+    <table class="responstable">
+    </table>
+</div>
+
+</body>
+<script>
+    function GetOneData(){
+        var Phone = document.getElementById('Phone').value;
+        var xmlhttp = new XMLHttpRequest();
+        var url = `http://localhost:5000/getOne/${Phone}`;
+
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var myarr = JSON.parse(this.responseText)
+                myFunctiona(arr);
+            }
+        }
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+        function myFunctiona(arr) {
+            var o = document.getElementById('o');
+            console.log(arr)
+            o.innerHTML = arr.Name + " " + arr.PhoneNumber + " " + arr.Location + " " + arr.Type;
+        }
+    }
+
+    function SendData()
+    {
+     const obj = {
+         name:'yehuda',
+         phone:'0584681758'
+
+     }
+     const json = JSON.stringify(obj);
+     const xml = new XMLHttpRequest();
+     xml.open('POST','http://localhost:5000/insert')
+     xml.setRequestHeader("Content-type","application/json")
+     xml.send(json);
+     alert('נתונים נשלחן בהצלחה!!!')
+    } 
+
+</script>
+</html>
